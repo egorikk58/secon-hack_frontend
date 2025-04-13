@@ -46,7 +46,7 @@ export const CreateUserRequestSchema = z.object({
   email: z.string().min(1).email(),
   departmentId: z.string().uuid(),
   userRole: z.enum(['Director', 'Hr', 'Worker']),
-  hiringDate: z.string().datetime().optional(),
+  hiringDate: z.string().datetime().nullable().optional(),
   positionName: z.string().min(1),
 });
 

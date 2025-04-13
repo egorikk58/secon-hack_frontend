@@ -36,7 +36,7 @@ export function DepartmentCard({
   const [departmentWithEmployees, setDepartmentWithEmployees] = useState<DepartmentWithEmployees | null>(null)
   const [filteredEmployees, setFilteredEmployees] = useState<DepartmentWithEmployees['employees']>([])
 
-  const supervisor = departmentWithEmployees?.employees.find(emp => emp.id === department.supervisorId)
+  // const supervisor = departmentWithEmployees?.employees.find(emp => emp.id === department.supervisorId)
 
   const handleSort = (field: keyof DepartmentWithEmployees['employees'][number], direction: 'asc' | 'desc') => {
     if (onSortChange) {
