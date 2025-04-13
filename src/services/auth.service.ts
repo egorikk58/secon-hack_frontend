@@ -7,7 +7,6 @@ import { LoginFormValues } from '@/schemas/auth.schema';
 export const AuthService = {
   async login(values: LoginFormValues) {
     try {
-      console.log('Отправка запроса на вход:', values);
       const { data } = await api.post<{ accessToken: string }>('/vacation-service/auth/login', values);
       localStorage.setItem('accessToken', data.accessToken);
       return { success: true, data };
