@@ -56,7 +56,7 @@ export function DateRangePicker() {
 
   const checkConflicts = (currentRange: DateRange) => {
     if (!currentRange.from || !currentRange.to) return [];
-    
+
     return CONFLICT_DATA.filter(conflict => {
       const conflictStart = conflict.start;
       const conflictEnd = conflict.end;
@@ -71,13 +71,13 @@ export function DateRangePicker() {
   };
 
   useEffect(() => {
-    const newConflicts = ranges.flatMap(range => 
+    const newConflicts = ranges.flatMap(range =>
       range.from && range.to ? checkConflicts(range) : []
     );
     const uniqueConflicts = newConflicts.filter(
       (conflict, index, self) =>
-        index === self.findIndex(c => 
-          c.name === conflict.name && 
+        index === self.findIndex(c =>
+          c.name === conflict.name &&
           c.start.getTime() === conflict.start.getTime()
         )
     );
@@ -202,23 +202,22 @@ export function DateRangePicker() {
               className="p-2"
             />
           </div>
-          
+
           <div className="space-y-2 mt-4">
             {ranges.map((range, index) => {
               const days = calculateDaysInRange(range);
               const isLongRange = days >= 14;
-              
+
               return (
-                <div 
+                <div
                   key={index}
-                  className={`p-2 rounded cursor-pointer ${
-                    activeRangeIndex === index ? 'bg-blue-50' : 'bg-gray-50'
-                  } ${isLongRange && range.from && range.to ? 'border-l-4 border-green-500' : ''}`}
+                  className={`p-2 rounded cursor-pointer ${activeRangeIndex === index ? 'bg-blue-50' : 'bg-gray-50'
+                    } ${isLongRange && range.from && range.to ? 'border-l-4 border-green-500' : ''}`}
                   onClick={() => setActiveRangeIndex(index)}
                 >
                   <div className="flex justify-between">
                     <span>
-                      Диапазон {index + 1}: {range.from?.toLocaleDateString() || 'Not set'} - 
+                      Диапазон {index + 1}: {range.from?.toLocaleDateString() || 'Not set'} -
                       {range.to?.toLocaleDateString() || 'Not set'}
                       {range.from && range.to && (
                         <span className={`ml-2 ${isLongRange ? 'text-green-600' : 'text-gray-500'}`}>
@@ -227,7 +226,7 @@ export function DateRangePicker() {
                       )}
                     </span>
                     {ranges.length > 1 && (
-                      <button 
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           removeRange(index);
@@ -235,14 +234,14 @@ export function DateRangePicker() {
                         className="text-red-500 text-sm"
                       >
                         Удалить
-                      </button> 
+                      </button>
                     )}
                   </div>
                 </div>
               );
             })}
           </div>
-          
+
           <Button
             variant="outline"
             onClick={addNewRange}
