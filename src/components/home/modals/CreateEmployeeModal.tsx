@@ -55,7 +55,7 @@ export function CreateEmployeeModal({ isOpen, onClose, onCreate, departmentId }:
       email: '',
       departmentId: departmentId,
       userRole: 'Worker',
-      hiringDate: '',
+      hiringDate: '2025-04-13T10:43:47.431Z',
       positionName: '00000000-0000-0000-0000-000000000000',
     },
   });
