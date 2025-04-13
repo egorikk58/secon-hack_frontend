@@ -38,7 +38,7 @@ export function Register() {
       });
 
       if (success) {
-        toast.success('Registration successful! Please create your company');
+        toast.success('Регистрация успешна!');
         navigate('/');
       }
     } finally {
@@ -49,7 +49,7 @@ export function Register() {
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center">Create an account</h2>
+        <h2 className="text-2xl font-bold text-center">Создать аккаунт</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             {/* Имя */}
@@ -58,10 +58,10 @@ export function Register() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Имя</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="John"
+                      placeholder="Артём"
                       {...field}
                       autoComplete="given-name"
                     />
@@ -77,10 +77,10 @@ export function Register() {
               name="surname"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Surname</FormLabel>
+                  <FormLabel>Фамилия</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Doe"
+                      placeholder="Фадеев"
                       {...field}
                       autoComplete="family-name"
                     />
@@ -96,10 +96,10 @@ export function Register() {
               name="patronymic"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Patronymic</FormLabel>
+                  <FormLabel>Отчество</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Alexandrovich"
+                      placeholder="Александрович"
                       {...field}
                       value={field.value || ''}
                       autoComplete="additional-name"
@@ -116,7 +116,7 @@ export function Register() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Почта</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="email@example.com"
@@ -135,11 +135,11 @@ export function Register() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Пароль</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="At least 6 characters"
+                      placeholder="Минимум 6 символов"
                       {...field}
                       autoComplete="new-password"
                     />
@@ -155,11 +155,11 @@ export function Register() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel>Подтвердите пароль</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Confirm your password"
+                      placeholder="Подтвердите ваш пароль"
                       {...field}
                       autoComplete="new-password"
                     />
@@ -174,18 +174,18 @@ export function Register() {
               className="w-full mt-6"
               disabled={isLoading}
             >
-              {isLoading ? 'Registering...' : 'Register'}
+              {isLoading ? 'Регистрация...' : 'Регистрация'}
             </Button>
           </form>
         </Form>
 
         <div className="text-center text-sm text-muted-foreground">
-          Already have an account?{' '}
+          Уже есть аккаунт?{' '}
           <Link
             to="/login"
             className="font-medium text-primary hover:underline"
           >
-            Sign in
+            Войти
           </Link>
         </div>
       </div>

@@ -28,7 +28,7 @@ export function Login() {
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center">Login</h2>
+        <h2 className="text-2xl font-bold text-center">Вход</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -36,7 +36,7 @@ export function Login() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Почта</FormLabel>
                   <FormControl>
                     <Input placeholder="email@example.com" {...field} />
                   </FormControl>
@@ -49,23 +49,23 @@ export function Login() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Пароль</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
+                    <Input type="password" placeholder="Пароль" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isLoading ? 'Вход...' : 'Войти'}
             </Button>
           </form>
         </Form>
         <div className="text-center text-sm">
-          Don't have an account?{' '}
+          Нет аккаунта?{' '}
           <Link to="/register" className="font-medium text-primary hover:underline">
-            Sign up
+            Войти
           </Link>
         </div>
       </div>
