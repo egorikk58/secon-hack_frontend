@@ -9,7 +9,6 @@ export const AuthService = {
     try {
       console.log('Отправка запроса на вход:', values);
       const { data } = await api.post<{ accessToken: string }>('/vacation-service/auth/login', values);
-      console.log('Ответ сервера:', data);
       localStorage.setItem('accessToken', data.accessToken);
       return { success: true, data };
     } catch (error: any) {
@@ -21,8 +20,6 @@ export const AuthService = {
 
   async register(values: RegisterFormValues) {
     try {
-      console.log('Отправка запроса на регистрацию:', values);
-
       const payload = {
         name: values.name,
         surname: values.surname,
@@ -36,7 +33,6 @@ export const AuthService = {
         payload
       );
 
-      console.log('Успешная регистрация:', data);
       localStorage.setItem('accessToken', data.accessToken);
       return { success: true, data };
     } catch (error: any) {

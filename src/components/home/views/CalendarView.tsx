@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DateRangePicker } from '@/components/home/calendar/DateRangePicker';
 import { ElegantCalendar } from '@/components/home/calendar/BigCalendar';
 import { GanttChart } from '@/components/home/calendar/GanttChart';

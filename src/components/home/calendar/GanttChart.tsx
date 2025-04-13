@@ -1,5 +1,4 @@
-// components/home/calendar/GanttChart.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -27,7 +26,7 @@ interface Department {
 }
 
 export function GanttChart() {
-  const [currentDate, setCurrentDate] = useState(new Date(2025, 2, 1)); // Март 2025 по умолчанию
+  const [currentDate, setCurrentDate] = useState(new Date(2025, 3, 1));
   const [selectedDepartment, setSelectedDepartment] = useState<string>('all');
 
   const year = currentDate.getFullYear();
@@ -53,11 +52,10 @@ export function GanttChart() {
     const endDate = new Date(vacation.endDate);
     const isStart = currentDate.getTime() === startDate.getTime();
     const isEnd = currentDate.getTime() === endDate.getTime();
-    const isMiddle = !isStart && !isEnd && currentDate > startDate && currentDate < endDate;
 
     let style = '';
     if (vacation.status === 'approved') {
-      style = 'bg-gradient-to-r from-[#35B2E6] to-[#0AFB2D]';
+      style = 'bg-[#1FD689]';
       if (isStart) style += ' rounded-l-full';
       if (isEnd) style += ' rounded-r-full';
     } else {
@@ -79,8 +77,7 @@ export function GanttChart() {
           id: '1',
           name: 'Гуренев Е.А.',
           vacations: [
-            { startDate: '2025-03-01', endDate: '2025-03-07', status: 'approved' },
-            { startDate: '2025-03-21', endDate: '2025-03-27', status: 'approved' },
+            { startDate: '2025-03-01', endDate: '2025-03-15', status: 'approved' },
             { startDate: '2025-06-10', endDate: '2025-06-24', status: 'approved' },
           ],
         },
@@ -96,7 +93,8 @@ export function GanttChart() {
           id: '3',
           name: 'Петров А.В.',
           vacations: [
-            { startDate: '2025-04-01', endDate: '2025-04-15', status: 'approved' },
+            { startDate: '2025-04-01', endDate: '2025-04-07', status: 'approved' },
+            { startDate: '2025-04-21', endDate: '2025-04-28', status: 'approved' },
             { startDate: '2025-08-10', endDate: '2025-08-24', status: 'pending' },
           ],
         },
@@ -172,6 +170,13 @@ export function GanttChart() {
       name: 'HR',
       employees: [
         {
+          id: '11',
+          name: 'Федорова А.М.',
+          vacations: [
+            { startDate: '2025-03-20', endDate: '2025-04-03', status: 'approved' },
+          ],
+        },
+        {
           id: '12',
           name: 'Васильев И.П.',
           vacations: [
@@ -189,8 +194,7 @@ export function GanttChart() {
           id: '13',
           name: 'Алексеев С.Д.',
           vacations: [
-            { startDate: '2025-04-05', endDate: '2025-04-19', status: 'approved' },
-            { startDate: '2025-08-01', endDate: '2025-08-15', status: 'approved' },
+            { startDate: '2025-04-01', endDate: '2025-04-28', status: 'approved' },
           ],
         },
         {
@@ -230,48 +234,6 @@ export function GanttChart() {
       return current >= start && current <= end &&
         (month === start.getMonth() || month === end.getMonth());
     });
-  };
-
-  const getVacationRange = (employee: Employee, day: number) => {
-    const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-    const currentDate = new Date(dateStr);
-
-    const vacation = employee.vacations.find(vac => {
-      const start = new Date(vac.startDate);
-      const end = new Date(vac.endDate);
-      return currentDate >= start && currentDate <= end;
-    });
-
-    if (!vacation) return null;
-
-    const startDate = new Date(vacation.startDate);
-    const endDate = new Date(vacation.endDate);
-    const isStart = currentDate.getTime() === startDate.getTime();
-    const isEnd = currentDate.getTime() === endDate.getTime();
-    const isMiddle = !isStart && !isEnd;
-
-    return {
-      status: vacation.status,
-      isStart,
-      isEnd,
-      isMiddle,
-      isSingle: isStart && isEnd // Для отпусков длиной в 1 день
-    };
-  };
-
-  const getVacationStatus = (employee: Employee, day: number) => {
-    const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-
-    const vacation = employee.vacations.find(vac => {
-      const start = new Date(vac.startDate);
-      const end = new Date(vac.endDate);
-      const current = new Date(dateStr);
-
-      return current >= start && current <= end &&
-        (month === start.getMonth() || month === end.getMonth());
-    });
-
-    return vacation?.status;
   };
 
   const hasPendingVacations = (employee: Employee) => {
@@ -322,74 +284,32 @@ export function GanttChart() {
             </tr>
           </thead>
           <tbody>
-            {filteredEmployees.map((employee) => {
-              // Находим все отпуска, которые попадают в текущий месяц
-              const monthVacations = employee.vacations.filter(vac => {
-                const start = new Date(vac.startDate);
-                const end = new Date(vac.endDate);
-                return (
-                  (start.getMonth() <= month && end.getMonth() >= month) ||
-                  (start.getFullYear() === year && start.getMonth() === month) ||
-                  (end.getFullYear() === year && end.getMonth() === month)
-                );
-              });
-
-              return (
-                <tr key={employee.id}>
-                  <td className="border p-2">{employee.name}</td>
-                  {days.map((day) => {
-                    const range = getVacationRange(employee, day);
-                    if (!range) {
-                      return <td key={`${employee.id}-${day}`} className="border p-0"></td>;
-                    }
-
-                    // Для первого дня отпуска создаем элемент, который растянется на всю длину
-                    if (range.isStart) {
-                      const vacation = employee.vacations.find(vac => {
-                        const start = new Date(vac.startDate);
-                        const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                        return new Date(dateStr).getTime() === start.getTime();
-                      });
-
-                      if (vacation) {
-                        const startDay = new Date(vacation.startDate).getDate();
-                        const endDay = new Date(vacation.endDate).getDate();
-                        const daysCount = range.isSingle ? 1 :
-                          (new Date(vacation.endDate).getMonth() === month ? endDay : daysInMonth) - startDay + 1;
-
-                        return (
-                          <td
-                            key={`${employee.id}-${day}`}
-                            className="border p-0"
-                            colSpan={daysCount}
-                          >
-                            <div className={`h-6 ${range.status === 'approved'
-                              ? 'bg-gradient-to-r from-[#35B2E6] to-[#0AFB2D]'
-                              : 'bg-gray-300'}`}
-                            ></div>
-                          </td>
-                        );
-                      }
-                    }
-
-                    if (range.isMiddle || range.isEnd) {
-                      return null;
-                    }
-
-                    return <td key={`${employee.id}-${day}`} className="border p-0"></td>;
-                  })}
-                  <td className="border p-2">
-                    {hasPendingVacations(employee) ? (
-                      <span className="text-gray-500">Не утвержден</span>
-                    ) : (
-                      <span className="bg-gradient-to-r from-[#35B2E6] to-[#0AFB2D] text-transparent bg-clip-text">
-                        Утвержден
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+            {filteredEmployees.map((employee) => (
+              <tr key={employee.id}>
+                <td className="border p-2">{employee.name}</td>
+                {days.map((day) => {
+                  const isVacation = isOnVacation(employee, day);
+                  return (
+                    <td key={`${employee.id}-${day}`} className="border p-0">
+                      {isVacation && (
+                        <div
+                          className={`h-6 ${getCellStyle(employee, day)}`}
+                        ></div>
+                      )}
+                    </td>
+                  );
+                })}
+                <td className="border p-2">
+                  {hasPendingVacations(employee) ? (
+                    <span className="text-gray-500">Не утвержден</span>
+                  ) : (
+                    <span className="bg-gradient-to-r from-[#35B2E6] to-[#0AFB2D] text-transparent bg-clip-text">
+                      Утвержден
+                    </span>
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
