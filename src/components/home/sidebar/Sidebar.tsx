@@ -47,7 +47,7 @@ export const Sidebar = ({
   };
 
   return (
-    <div className="z-10 group/sidebar fixed h-full w-[130px] hover:w-[363px] bg-white border-r transition-all duration-300 ease-in-out overflow-hidden flex flex-col">
+    <div className="z-100 group/sidebar fixed h-full w-[130px] hover:w-[363px] bg-white border-r transition-all duration-300 ease-in-out overflow-hidden flex flex-col">
       <div className="h-[72px] border-b border-gray-200 flex items-center justify-center relative">
         <button className="flex items-center w-full cursor-pointer">
           <div className="w-[130px] flex justify-center rounded-lg p-2 transition-colors">
