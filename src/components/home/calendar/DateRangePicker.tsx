@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button";
 import { DateRange } from "react-day-picker";
 import { CalendarService } from "@/services";
 
-interface DateRangePayload {
-  ranges: Array<{
-    startDate: string;
-    endDate: string;
-  }>;
+interface ConflictItem {
+  name: string;
+  position: string;
+  start: Date;
+  end: Date;
 }
 
-const CONFLICT_DATA = [
+const CONFLICT_DATA: ConflictItem[] = [
   {
     name: "Артем Свечников",
     position: "Старший менеджер проектов",
@@ -33,12 +33,12 @@ const CONFLICT_DATA = [
 ];
 
 export function DateRangePicker() {
-  const [ranges, setRanges] = useState<DateRange[]>([{}]);
+  const [ranges, setRanges] = useState<DateRange[]>([{ from: undefined, to: undefined }]);
   const [maxDays, setMaxDays] = useState<number>(28);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeRangeIndex, setActiveRangeIndex] = useState(0);
-  const [conflicts, setConflicts] = useState<typeof CONFLICT_DATA>([]);
+  const [conflicts, setConflicts] = useState<ConflictItem[]>([]);
 
   useEffect(() => {
     const fetchMaxDays = async () => {
@@ -54,18 +54,13 @@ export function DateRangePicker() {
     fetchMaxDays();
   }, []);
 
-  const checkConflicts = (currentRange: DateRange) => {
+  const checkConflicts = (currentRange: DateRange): ConflictItem[] => {
     if (!currentRange.from || !currentRange.to) return [];
     
     return CONFLICT_DATA.filter(conflict => {
-      const conflictStart = conflict.start;
-      const conflictEnd = conflict.end;
-      const selectedStart = currentRange.from;
-      const selectedEnd = currentRange.to;
-
       return (
-        (selectedStart <= conflictEnd && selectedEnd >= conflictStart) ||
-        (conflictStart <= selectedEnd && conflictEnd >= selectedStart)
+        currentRange.from! <= conflict.end &&
+        currentRange.to! >= conflict.start
       );
     });
   };
@@ -84,9 +79,10 @@ export function DateRangePicker() {
     setConflicts(uniqueConflicts);
   }, [ranges]);
 
-  const calculateDaysInRange = (range: DateRange) => {
+  const calculateDaysInRange = (range: DateRange): number => {
     if (!range.from || !range.to) return 0;
-    return Math.ceil((range.to.getTime() - range.from.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    const diffTime = range.to.getTime() - range.from.getTime();
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
   };
 
   const totalDays = ranges.reduce((sum, range) => sum + calculateDaysInRange(range), 0);
@@ -98,7 +94,7 @@ export function DateRangePicker() {
 
   const handleRangeChange = (range: DateRange | undefined) => {
     const newRanges = [...ranges];
-    newRanges[activeRangeIndex] = range || {};
+    newRanges[activeRangeIndex] = range || { from: undefined, to: undefined };
     setRanges(newRanges);
     setError(null);
   };
@@ -108,7 +104,7 @@ export function DateRangePicker() {
       setError("Please complete current range first");
       return;
     }
-    setRanges([...ranges, {}]);
+    setRanges([...ranges, { from: undefined, to: undefined }]);
     setActiveRangeIndex(ranges.length);
   };
 
@@ -119,7 +115,7 @@ export function DateRangePicker() {
     setActiveRangeIndex(Math.min(activeRangeIndex, newRanges.length - 1));
   };
 
-  const validateRanges = () => {
+  const validateRanges = (): boolean => {
     const incompleteRanges = ranges.some(range => !range.from || !range.to);
     if (incompleteRanges) {
       setError("Please complete all date ranges");
@@ -146,14 +142,18 @@ export function DateRangePicker() {
     setError(null);
 
     try {
-      const payload: DateRangePayload = {
-        ranges: ranges.map(range => ({
-          startDate: range.from!.toISOString(),
-          endDate: range.to!.toISOString(),
-        }))
+      const payload = {
+        ranges: ranges
+          .filter(range => range.from && range.to)
+          .map(range => ({
+            startDate: range.from!.toISOString(),
+            endDate: range.to!.toISOString()
+          })),
+        totalDays
       };
 
       await CalendarService.submitDateRanges(payload);
+      // Здесь можно добавить обработку успешной отправки
     } catch (err) {
       setError(err instanceof Error ? err.message : "Submission failed");
     } finally {
@@ -162,7 +162,7 @@ export function DateRangePicker() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 w-fit relative ">
+    <div className="bg-white rounded-lg shadow-sm p-6 w-fit relative">
       <div className="flex justify-between items-start mb-2">
         <div className="mb-4">
           <h3 className="text-lg font-medium">Выберите даты отпуска</h3>
@@ -174,7 +174,6 @@ export function DateRangePicker() {
           </p>
         </div>
 
-        {/* Блок с предупреждениями о конфликтах теперь внутри основного блока справа */}
         {conflicts.length > 0 && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-3 ml-4 w-64">
             <h4 className="font-medium text-red-800 text-sm">⚠️ Ваш отпуск имеет пересечения с сотрудниками:</h4>

@@ -1,5 +1,3 @@
-import { Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { UserProfile } from '@/schemas';
 
@@ -9,7 +7,7 @@ interface HeaderProps {
   onLogout: () => void;
 }
 
-export const Header = ({ pageTitle, userProfile, onLogout }: HeaderProps) => {
+export const Header = ({onLogout }: HeaderProps) => {
   return (
     <header className="h-[72px] border-b border-gray-200 bg-white px-6 flex flex-col justify-center">
       <div className="flex justify-around w-full">

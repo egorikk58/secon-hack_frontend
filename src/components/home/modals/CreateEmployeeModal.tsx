@@ -249,7 +249,7 @@ export function CreateEmployeeModal({ isOpen, onClose, onCreate, departmentId }:
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {Object.entries(UserRoleEnum).map(([key, value]) => (
+                      {Object.entries(UserRoleEnum).map(([value]) => (
                         <SelectItem key={value} value={value}>
                           {(() => {
                             switch (value) {

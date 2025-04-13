@@ -1,4 +1,4 @@
-import { Users, Inbox, FolderPlus, Calendar, FileCog, FolderCog } from 'lucide-react';
+import { Users, Inbox, Calendar, FolderCog } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Logo } from '@/components/ui/Logo';
 import { ESidebarItem, UserRole, UserProfile } from '@/schemas';

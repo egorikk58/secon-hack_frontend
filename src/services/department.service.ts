@@ -1,6 +1,6 @@
 import { api, ApiResponse } from '@/lib/api/api';
 import { handleServiceError } from '@/lib/api/error-handler';
-import { BaseDepartment, DepartmentApiResponse, DepartmentListResponse, DepartmentResponse, DepartmentWithEmployees, DepartmentEmployeeSchema, UserProfile, UserProfileResponse, DepartmentEmployee, DepartmentEmployeeResponse, CreateDepartmentRequestDto } from '@/schemas';
+import { BaseDepartment, DepartmentApiResponse, DepartmentListResponse, DepartmentResponse, DepartmentWithEmployees, DepartmentEmployeeSchema, DepartmentEmployee, DepartmentEmployeeResponse, CreateDepartmentRequestDto } from '@/schemas';
 
 const API_ENDPOINTS = {
   GET_DEPARTMENTS: '/vacation-service/departments',

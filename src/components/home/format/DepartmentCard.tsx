@@ -5,8 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { useEffect, useState } from 'react'
 import { DepartmentService } from '@/services'
 import { toast } from 'sonner'
-import { Input } from '@/components/ui/input'
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react'
+import { ChevronDown} from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,

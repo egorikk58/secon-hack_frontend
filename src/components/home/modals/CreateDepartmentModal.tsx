@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CircleX } from 'lucide-react';
 import {
   DepartmentRoleEnum,
@@ -126,7 +126,7 @@ export function CreateDepartmentModal({ isOpen, onClose, onCreate, userProfile }
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {Object.entries(DepartmentRoleEnum).map(([key, value]) => (
+                      {Object.entries(DepartmentRoleEnum).map(([value]) => (
                         <SelectItem key={value} value={value}>
                           {(() => {
                             switch (value) {

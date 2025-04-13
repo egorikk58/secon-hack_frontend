@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export interface DateRangePart {
-  startDate: Date;
-  endDate: Date;
+  startDate: string; // Изменено с Date на string, так как мы передаем ISO строки
+  endDate: string;   // Аналогично
 }
 
 export interface DateRangePayload {
@@ -16,20 +16,18 @@ export interface MaxDaysResponse {
 
 export const CalendarService = {
   async getMaxDays(): Promise<number> {
-    const response = await axios.get<MaxDaysResponse>('***');
-    return  28 //response.data.maxDays;
+    // В реальном приложении раскомментируйте:
+    // const response = await axios.get<MaxDaysResponse>('***');
+    // return response.data.maxDays;
+    return 28; // Заглушка для разработки
   },
 
-  async submitDateRanges(payload: DateRangePayload) {
-    const data = {
-      ranges: payload.ranges.map(range => ({
-        startDate: range.startDate.toISOString(),
-        endDate: range.endDate.toISOString(),
-      })),
+  async submitDateRanges(payload: Omit<DateRangePayload, 'totalDays'> & { totalDays: number }) {
+    // Не нужно преобразовывать даты в строки, если интерфейс уже использует string
+    const response = await axios.post('***', {
+      ranges: payload.ranges,
       totalDays: payload.totalDays
-    };
-
-    const response = await axios.post('***', data);
+    });
     return response.data;
   },
 };

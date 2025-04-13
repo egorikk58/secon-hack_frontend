@@ -31,7 +31,7 @@ interface EditEmployeeModalProps {
   userProfile: UserProfile;
 }
 
-export function EditEmployeeModal({ isOpen, onClose, onUpdate, employee, userProfile }: EditEmployeeModalProps) {
+export function EditEmployeeModal({ isOpen, onClose, employee }: EditEmployeeModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [departments, setDepartments] = useState<BaseDepartment[]>([]);
 

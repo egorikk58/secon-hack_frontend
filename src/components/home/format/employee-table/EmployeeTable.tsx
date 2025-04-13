@@ -175,7 +175,7 @@ export default function EmployeeTable({ data, userProfile }: EmployeeTableProps)
           isOpen={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
           employee={selectedEmployee}
-          onUpdate={async (updateData) => {
+          onUpdate={async () => {
             setIsEditModalOpen(false);
           }}
           userProfile={userProfile}

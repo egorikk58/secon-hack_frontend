@@ -67,28 +67,28 @@ export default function DirectorDashboard({ userProfile }: DirectorDashboardProp
     fetchData();
   }, [currentDepartment]);
 
-  const handleDeleteEmployee = async (id: string) => {
-    try {
-      if (id === userProfile.id) {
-        toast.error('Вы не можете удалить свой собственный аккаунт');
-        return;
-      }
+  // const handleDeleteEmployee = async (id: string) => {
+  //   try {
+  //     if (id === userProfile.id) {
+  //       toast.error('Вы не можете удалить свой собственный аккаунт');
+  //       return;
+  //     }
 
-      await UserService.deleteUser(id);
-      setDepartmentWithEmployees(prev => {
-        if (!prev) return prev;
-        return {
-          ...prev,
-          employees: prev.employees.filter(employee => employee.id !== id)
-        };
-      });
-      toast.success('Сотрудник успешно удален');
-    } catch (error) {
-      toast.error('Не удалось удалить сотрудника');
-      console.error('Error deleting employee:', error);
-      throw error;
-    }
-  };
+  //     await UserService.deleteUser(id);
+  //     setDepartmentWithEmployees(prev => {
+  //       if (!prev) return prev;
+  //       return {
+  //         ...prev,
+  //         employees: prev.employees.filter(employee => employee.id !== id)
+  //       };
+  //     });
+  //     toast.success('Сотрудник успешно удален');
+  //   } catch (error) {
+  //     toast.error('Не удалось удалить сотрудника');
+  //     console.error('Error deleting employee:', error);
+  //     throw error;
+  //   }
+  // };
 
   const handleAddDepartment = () => setShowCreateDepartment(true);
   const handleAddEmployee = () => setShowCreateEmployee(true);
