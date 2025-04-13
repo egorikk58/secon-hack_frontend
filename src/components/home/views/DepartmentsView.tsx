@@ -142,7 +142,7 @@ export default function DirectorDashboard({ userProfile }: DirectorDashboardProp
 
   return (
     <div className="self-start flex-1 flex flex-col items-center gap-6">
-      <div className="bg-white w-full rounded-2xl p-4 flex justify-between gap-4">
+      <div className="w-full flex justify-between gap-4">
         <HeaderSection
           title="Управление подразделениями"
           description="Создать новое подразделение"

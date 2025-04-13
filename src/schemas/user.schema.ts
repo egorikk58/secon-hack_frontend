@@ -47,6 +47,7 @@ export const CreateUserRequestSchema = z.object({
   departmentId: z.string().uuid(),
   userRole: z.enum(['Director', 'Hr', 'Worker']),
   hiringDate: z.string().datetime().optional(),
+  positionName: z.string().min(1),
 });
 
 export type CreateUserRequestDtoZod = z.infer<typeof CreateUserRequestSchema>;

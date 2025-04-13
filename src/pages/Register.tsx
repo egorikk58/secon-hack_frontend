@@ -173,6 +173,7 @@ export function Register() {
               type="submit"
               className="w-full mt-6"
               disabled={isLoading}
+              variant={"project"}
             >
               {isLoading ? 'Регистрация...' : 'Регистрация'}
             </Button>

@@ -172,7 +172,7 @@ export const getEmployeeColumns = (options?: ColumnOptions): ColumnDef<Departmen
             >
               Копировать ID
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleEditClick}>Редактировать</DropdownMenuItem>
+            {/* <DropdownMenuItem onClick={handleEditClick}>Редактировать</DropdownMenuItem> */}
             <DropdownMenuItem
               className='text-red-600 focus:text-red-600'
               onClick={handleDelete}

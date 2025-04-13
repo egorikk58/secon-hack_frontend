@@ -53,9 +53,9 @@ export const Sidebar = ({
           <div className="w-[130px] flex justify-center rounded-lg p-2 transition-colors">
             <Logo />
           </div>
-          <span className="absolute left-[90px] ml-[12px] text-3xl font-bold text-gray-800 opacity-0 group-hover/sidebar:opacity-100 transition-all duration-200 whitespace-nowrap">
+          {/* <span className="absolute left-[90px] ml-[12px] text-3xl font-bold text-gray-800 opacity-0 group-hover/sidebar:opacity-100 transition-all duration-200 whitespace-nowrap">
             Форс
-          </span>
+          </span> */}
         </button>
       </div>
 

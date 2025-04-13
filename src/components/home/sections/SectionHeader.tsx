@@ -12,7 +12,7 @@ export default function SectionHeader({
   onAction,
 }: SectionHeaderProps) {
   return (
-    <section className='flex flex-col items-center'>
+    <section className='bg-white rounded-2xl p-4  flex flex-col items-center'>
       <h2 className="text-2xl font-bold mb-4 pb-4 font-arkhip w-lg border-b text-center">
         {title}
       </h2>

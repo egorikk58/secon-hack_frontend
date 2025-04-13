@@ -169,6 +169,7 @@ export function CreateDepartmentModal({ isOpen, onClose, onCreate, userProfile }
               <Button
                 type='submit'
                 disabled={isLoading}
+                variant={"project"}
               >
                 {isLoading ? 'Создание...' : 'Создать отдел'}
               </Button>

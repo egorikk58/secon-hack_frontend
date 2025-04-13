@@ -57,7 +57,7 @@ export function Login() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button variant={"project"} type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Вход...' : 'Войти'}
             </Button>
           </form>

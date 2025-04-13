@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { useEffect, useState } from 'react'
 import { DepartmentService } from '@/services'
 import { toast } from 'sonner'
-import { ChevronDown} from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -172,7 +172,7 @@ export function DepartmentCard({
         )}
       </div>
 
-      <div className='mt-auto pt-3 border-t'>
+      {/* <div className='mt-auto pt-3 border-t'>
         <div className='flex items-center justify-between'>
           <div className='flex items-center space-x-2'>
             <Avatar className='h-8 w-8'>
@@ -190,7 +190,7 @@ export function DepartmentCard({
             Подробнее
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Check } from "lucide-react";
 
 interface VacationRequest {
   id: string;
@@ -16,8 +16,7 @@ interface VacationRequest {
 export function VacationRequestsJournal() {
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
   const [isDepartmentPopoverOpen, setIsDepartmentPopoverOpen] = useState(false);
-
-  const allRequests: VacationRequest[] = [
+  const [requests, setRequests] = useState<VacationRequest[]>([
     {
       id: "1",
       employeeName: "Петрова М.К",
@@ -46,14 +45,14 @@ export function VacationRequestsJournal() {
       status: "pending"
     },
     {
-        id: "4",
-        employeeName: "Петрова М.К",
-        position: "Backend разработчик",
-        department: "IT",
-        startDate: "2023-09-05",
-        endDate: "2023-09-19",
-        status: "pending"
-      },
+      id: "4",
+      employeeName: "Петрова М.К",
+      position: "Backend разработчик",
+      department: "IT",
+      startDate: "2023-09-05",
+      endDate: "2023-09-19",
+      status: "pending"
+    },
     {
       id: "5",
       employeeName: "Петрова М.К",
@@ -62,34 +61,36 @@ export function VacationRequestsJournal() {
       startDate: "2023-09-05",
       endDate: "2023-09-19",
       status: "pending"
-    },  
-  ];
+    },
+  ]);
 
-  const departments = Array.from(new Set(allRequests.map(r => r.department)));
-  const filteredRequests = selectedDepartment 
-    ? allRequests.filter(r => r.department === selectedDepartment) 
-    : allRequests;
+  const departments = Array.from(new Set(requests.map(r => r.department)));
+  const filteredRequests = selectedDepartment
+    ? requests.filter(r => r.department === selectedDepartment)
+    : requests;
 
   const handleApprove = (id: string) => {
-    console.log(`Заявка ${id} утверждена`);
+    setRequests(requests.map(request =>
+      request.id === id ? { ...request, status: "approved" } : request
+    ));
   };
 
   const handleReject = (id: string) => {
-    console.log(`Заявка ${id} отклонена`);
+    setRequests(requests.filter(request => request.id !== id));
   };
 
   return (
     <div className="p-6 w-full">
       {/* Заголовок и фильтр */}
       <div className="flex flex-col items-start gap-4 mb-4 w-full">
-      <h1 className="text-2xl font-bold text-center bg-white w-[1280px] h-[103px] font-arkhip font-[32px] flex items-center rounded-2xl pl-[20px]">
-        Утверждение заявок
-      </h1>
-        
+        <h1 className="text-2xl font-bold text-center bg-white w-[1280px] h-[103px] font-arkhip font-[32px] flex items-center rounded-2xl pl-[20px]">
+          Утверждение заявок
+        </h1>
+
         <Popover open={isDepartmentPopoverOpen} onOpenChange={setIsDepartmentPopoverOpen}>
           <PopoverTrigger asChild>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="flex items-center gap-2"
             >
               {selectedDepartment || "Выбрать отделы"}
@@ -129,47 +130,53 @@ export function VacationRequestsJournal() {
       {/* Список заявок */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 w-full justify-items-start">
         {filteredRequests.map(request => (
-          <div key={request.id}   className="bg-white rounded-lg shadow-sm p-4 border border-gray-200 w-full max-w-[400px]
-           hover:shadow-[0_0_0_1px_#35B2E6,0_0_0_2px_#0AFB2D] transition-colors duration-300">
+          <div key={request.id} className="bg-white rounded-lg shadow-sm p-4 border border-gray-200 w-full max-w-[400px] hover:shadow-[0_0_0_1px_#35B2E6,0_0_0_2px_#0AFB2D] transition-colors duration-300">
             <div className="space-y-3">
               <div>
                 <h3 className="font-medium text-left">{request.employeeName}</h3>
                 <p className="text-sm text-gray-600 text-left">{request.position}</p>
                 <p className="text-sm text-gray-500 text-left">{request.department}</p>
               </div>
-              
+
               <div className="space-y-2">
-  <div className="flex items-center gap-2 w-full">
-    <span className="whitespace-nowrap w-16">Начало:</span>
-    <span className="flex-1 bg-white rounded-md border border-gray-200 px-3 py-1.5 text-sm text-center">
-      {new Date(request.startDate).toLocaleDateString()}
-    </span>
-  </div>
-  <div className="flex items-center gap-2 w-full">
-    <span className="whitespace-nowrap w-16">Конец:</span>
-    <span className="flex-1 bg-white rounded-md border border-gray-200 px-3 py-1.5 text-sm text-center">
-      {new Date(request.endDate).toLocaleDateString()}
-    </span>
-  </div>
-</div>
-              
-              <div className="flex gap-2 pt-2 justify-between">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="text-red-600 border-red-300 hover:bg-red-50"
-                  onClick={() => handleReject(request.id)}
-                >
-                  Отклонить
-                </Button>
-                <Button 
-                  size="sm"
-                  className="bg-gradient-to-r from-[#35B2E6] to-[#0AFB2D] hover:opacity-[70%]"
-                  onClick={() => handleApprove(request.id)}
-                >
-                  Утвердить
-                </Button>
+                <div className="flex items-center gap-2 w-full">
+                  <span className="whitespace-nowrap w-16">Начало:</span>
+                  <span className="flex-1 bg-white rounded-md border border-gray-200 px-3 py-1.5 text-sm text-center">
+                    {new Date(request.startDate).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 w-full">
+                  <span className="whitespace-nowrap w-16">Конец:</span>
+                  <span className="flex-1 bg-white rounded-md border border-gray-200 px-3 py-1.5 text-sm text-center">
+                    {new Date(request.endDate).toLocaleDateString()}
+                  </span>
+                </div>
               </div>
+
+              {request.status === "approved" ? (
+                <div className="flex items-center justify-center gap-2 pt-2 text-green-600">
+                  <Check className="h-5 w-5" />
+                  <span>Утверждено</span>
+                </div>
+              ) : (
+                <div className="flex gap-2 pt-2 justify-between">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-red-600 border-red-300 hover:bg-red-50"
+                    onClick={() => handleReject(request.id)}
+                  >
+                    Отклонить
+                  </Button>
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-[#35B2E6] to-[#0AFB2D] hover:opacity-[70%]"
+                    onClick={() => handleApprove(request.id)}
+                  >
+                    Утвердить
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         ))}

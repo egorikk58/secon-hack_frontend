@@ -8,7 +8,9 @@ import {
   UpdateUserRequestDtoZod,
   UserRoleEnum,
   UpdateUserRequestSchema,
-  CreateUserRequestSchema
+  CreateUserRequestSchema,
+  CreateUserRequestDto,
+  CreateUserRequestDtoResponse
 } from '@/schemas';
 const ROLE_DISPLAY_NAMES: Record<UserRole, string> = {
   Director: 'Директор',
@@ -35,10 +37,22 @@ export const UserService = {
     }
   },
 
-  async createUser(payload: CreateUserRequestDtoZod): Promise<UserProfileResponse> {
+  // async createUser(payload: CreateUserRequestDtoZod): Promise<UserProfileResponse> {
+  //   try {
+  //     const validatedData = CreateUserRequestSchema.parse(payload);
+  //     const { data } = await api.post<UserProfile>(API_ENDPOINTS.CREATE_USER, validatedData);
+  //     console.debug('User created successfully:', data);
+  //     return { success: true, data: data };
+  //   } catch (error) {
+  //     console.error('User creation failed:', error);
+  //     return handleServiceError(error);
+  //   }
+  // },
+
+  async createUser(payload: CreateUserRequestDtoZod): Promise<CreateUserRequestDtoResponse> {
     try {
       const validatedData = CreateUserRequestSchema.parse(payload);
-      const { data } = await api.post<UserProfile>(API_ENDPOINTS.CREATE_USER, validatedData);
+      const { data } = await api.post<CreateUserRequestDto>(API_ENDPOINTS.CREATE_USER, validatedData);
       console.debug('User created successfully:', data);
       return { success: true, data: data };
     } catch (error) {
